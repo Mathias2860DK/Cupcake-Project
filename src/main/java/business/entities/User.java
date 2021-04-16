@@ -15,8 +15,9 @@ public class User
     private String password; // Should be hashed and secured
     private String role;
 
-    //kommer vi ind her
-    //kommer vi herind?
+    //kommer vi ind her?
+    //kommer vi her ind?
+    //ind her vi kommer?
     public String getEmail()
     {
         return email;
