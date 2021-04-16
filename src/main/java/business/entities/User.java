@@ -16,6 +16,7 @@ public class User
     private String role;
 
     //kommer vi ind her
+    //kommer vi herind?
     public String getEmail()
     {
         return email;
