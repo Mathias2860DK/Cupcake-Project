@@ -19,6 +19,7 @@ public class User
     //kommer vi her ind?
     //ind her vi kommer?
     //kommer ind vi her?
+    //kom nu ind her?
 
     public String getEmail()
     {
