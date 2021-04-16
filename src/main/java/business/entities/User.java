@@ -18,6 +18,8 @@ public class User
     //kommer vi ind her?
     //kommer vi her ind?
     //ind her vi kommer?
+    //kommer ind vi her?
+
     public String getEmail()
     {
         return email;
