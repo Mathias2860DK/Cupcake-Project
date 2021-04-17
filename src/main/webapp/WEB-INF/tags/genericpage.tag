@@ -22,20 +22,33 @@
         This header is inspired by this bootstrap
         example: https://getbootstrap.com/docs/5.0/examples/pricing/
     -->
-<header class="d-flex flex-column flex-md-row align-items-center p-3 pb-0 px-md-4 mb-4 bg-white border-bottom shadow-sm">
+    <div id="header-picture">
+                <img class="img-fluid" src="${pageContext.request.contextPath}/css/olskercupcakesBillede.png">
+    </div>
+
+<header class="d-flex flex-column flex-md-row align-items-center p-3 pb-0 px-md-4 mb-4 bg-white border-bottom shadow-sm has-bg-img">
+
+
+
     <div class="h5 my-0 me-md-auto fw-normal">
-        <p>Demo Project for DAT 2. semester</p>
+
+
+
+        <p>Olsker Cupcakes</p>
         <p style="font-size: larger">
             <jsp:invoke fragment="header"/>
         </p>
+
     </div>
     <nav class="my-2 my-md-0 me-md-3">
+
         <c:if test="${addHomeLink == null }">
             <a class="p-2 text-dark" href="<%=request.getContextPath()%>">Home</a>
         </c:if>
         <a class="p-2 text-dark" href="#">Orders</a>
         <a class="p-2 text-dark" href="#">Profile</a>
         <a class="p-2 text-dark" href="#">About</a>
+
     </nav>
 
     <div>
