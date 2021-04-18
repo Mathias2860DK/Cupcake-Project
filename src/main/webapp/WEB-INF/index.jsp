@@ -31,12 +31,15 @@
                         />
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="${pageContext.request.contextPath}/css/images/LoveAtFirstBite.jpg" alt="Second slide" />
+                        <img class="d-block w-100"
+                             src="${pageContext.request.contextPath}/css/images/cupcakeShop.jpg"
+                             alt="Second slide"
+                        />
                     </div>
                     <div class="carousel-item">
                         <img
                                 class="d-block w-100"
-                                src="${pageContext.request.contextPath}/css/images/olskercupcakesBillede.png"
+                                src="${pageContext.request.contextPath}/css/images/sliderCupcake.png"
                                 alt="Third slide"
                         />
                     </div>
@@ -48,7 +51,7 @@
                         data-bs-slide="prev"
                 >
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">Forrige</span>
                 </a>
                 <a
                         class="carousel-control-next"
@@ -57,7 +60,7 @@
                         data-bs-slide="next"
                 >
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">Næste</span>
                 </a>
             </div>
 
