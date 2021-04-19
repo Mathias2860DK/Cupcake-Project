@@ -64,9 +64,39 @@
                 </a>
             </div>
 
+
+
             <div style="margin-top: 3em;margin-bottom: 3em;">
                 Main page for this 2. semester start project used at cphbusiness.dk
             </div>
+
+            <form method="post" action="${pageContext.request.contextPath}">
+
+                <label for="bottom">Din primære idræt:</label>
+                <select name="bottom" id="bottom">
+                    <c:forEach var="bottom" items="${applicationScope.bottomList}">
+                        <option value="${bottom.bottomId}">${bottom.bName} ... ${bottom.price} kr.</option>
+
+                    </c:forEach>
+                </select>
+
+                <select name="topping" id="topping">
+                    <c:forEach var="topping" items="${applicationScope.toppingList}">
+                        <option value="${topping.toppingId}">${topping.tName} ... ${topping.price} kr.</option>
+
+                    </c:forEach>
+                </select>
+
+
+                <button type="submit" class="btn btn-primary">Tilføj til kurv</button>
+
+                <c:if test="${requestScope.error != null}">
+                    <p style="color: red">${requestScope.error}</p>
+                </c:if>
+
+
+                <div class="col-sm-4"></div>
+            </form>
 
             <c:if test="${sessionScope.role == 'employee' }">
                 <p style="font-size: larger">This is what you can do,
