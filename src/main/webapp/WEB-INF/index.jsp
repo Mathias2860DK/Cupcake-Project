@@ -70,9 +70,9 @@
                 Main page for this 2. semester start project used at cphbusiness.dk
             </div>
 
-            <form method="post" action="${pageContext.request.contextPath}">
+            <form method="post" action="${pageContext.request.contextPath}/fc/addtobasket">
 
-                <label for="bottom">Din primære idræt:</label>
+                <label for="bottom">Vælg din bund:</label>
                 <select name="bottom" id="bottom">
                     <c:forEach var="bottom" items="${applicationScope.bottomList}">
                         <option value="${bottom.bottomId}">${bottom.bName} ... ${bottom.price} kr.</option>
@@ -80,6 +80,7 @@
                     </c:forEach>
                 </select>
 
+                <label for="topping">Vælg din topping:</label>
                 <select name="topping" id="topping">
                     <c:forEach var="topping" items="${applicationScope.toppingList}">
                         <option value="${topping.toppingId}">${topping.tName} ... ${topping.price} kr.</option>
