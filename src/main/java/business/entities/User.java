@@ -8,12 +8,14 @@ public class User
         this.email = email;
         this.password = password;
         this.role = role;
+        this.balance = 0;
     }
 
     private int id; // just used to demo retrieval of autogen keys in UserMapper
     private String email;
     private String password; // Should be hashed and secured
     private String role;
+    private double balance;
 
     public String getEmail()
     {
@@ -55,4 +57,11 @@ public class User
         this.id = id;
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
 }
