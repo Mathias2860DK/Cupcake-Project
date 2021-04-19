@@ -18,7 +18,7 @@ public class OrderMapper {
                     " (`user_id`," +
                     " `created`, " +
                     "`status`)" +
-                    " VALUES ('?', '?', '?');";
+                    " VALUES (?,?,?);";
 
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
             {
@@ -44,4 +44,4 @@ public class OrderMapper {
     }
     }
 
-}
+
