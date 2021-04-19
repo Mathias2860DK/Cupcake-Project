@@ -28,7 +28,7 @@ public class OrderlineMapper {
 
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
             {
-                ps.setInt(1, );
+            /*    ps.setInt(1, );
                 ps.setDouble(2, weight );
                 ps.setString(3, category);
                 ps.setDouble(4, bmi);
@@ -44,7 +44,7 @@ public class OrderlineMapper {
 
                 for (Integer hobbyId : hobbyList) {
                     insertIntoLinkHobbyBmiEntry(bmiEntryId,hobbyId);
-                }
+                }*/
             }
             catch (SQLException ex)
             {
