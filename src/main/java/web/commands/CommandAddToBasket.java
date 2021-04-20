@@ -1,5 +1,6 @@
 package web.commands;
 
+import business.entities.Bottom;
 import business.entities.Orders;
 import business.entities.User;
 import business.exceptions.UserException;
@@ -69,6 +70,11 @@ public class CommandAddToBasket extends CommandProtectedPage {
             }
         }
 
+        List<Bottom> bottomList = (List<Bottom>) session.getServletContext().getAttribute("bottomList");
+//metode der tager bottomId, toppingId, quantity og bottomList. Skal returnere samlet pris for 1 ordre
+        //line.
+        //double pricee = bottomList.get(bottomId).getPrice();
+        //TODO: lav en calculation klasse agtigt og pak det ind.
         return pageToShow;
     }
 
