@@ -1,5 +1,6 @@
 package web.commands;
 
+import business.entities.Orders;
 import business.entities.User;
 import business.exceptions.UserException;
 import business.services.OrdersFacade;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class CommandAddToBasket extends CommandProtectedPage {
 
@@ -38,9 +40,13 @@ public class CommandAddToBasket extends CommandProtectedPage {
         int userId = user.getId();
         Timestamp created = null;
         String status = "";
-        if (!status.equals("In basket")){
-            ordersFacade.insertOrder(userId,created,status);
+        List<Orders> ordersList = ordersFacade.getAllOrders();
+        for (Orders orders : ordersList) {
+            if(!orders.getStatus().equals("In basket") && orders.getUserId() == userId){
+                ordersFacade.insertOrder(userId,created,status);
+            }
         }
+
         status = "In progress";
 
 
