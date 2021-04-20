@@ -25,7 +25,7 @@ public class OrderlineMapper {
                     " `price`," +
                     " `topping_id`, " +
                     "`bottom_id`)" +
-                    " VALUES ('?', '?', '?', '?', '?');";
+                    " VALUES (?,?,?,?,?);";
 
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
             {
@@ -36,6 +36,9 @@ public class OrderlineMapper {
                 ps.setInt(5, bottomId);
 
                 ps.executeUpdate();
+                ResultSet ids = ps.getGeneratedKeys();
+                ids.next();
+                int orderlineId = ids.getInt(1);
 
             }
             catch (SQLException ex)

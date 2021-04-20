@@ -32,7 +32,7 @@ public class CommandAddToBasket extends CommandProtectedPage {
 
         HttpSession session = request.getSession();
         User user = null;
-        int orderId = 1;
+        int orderId = 20;
         int bottomId = Integer.parseInt(request.getParameter("bottom"));
         int toppingId = Integer.parseInt(request.getParameter("topping"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
