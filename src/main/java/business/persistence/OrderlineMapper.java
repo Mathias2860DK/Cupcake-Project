@@ -20,7 +20,7 @@ public class OrderlineMapper {
         try (Connection connection = database.connect())
         {
             String sql = "INSERT INTO `olskerCupcake`.`orderline`" +
-                    " (`orderID`," +
+                    " (`order_id`," +
                     " `quantity`," +
                     " `price`," +
                     " `topping_id`, " +
