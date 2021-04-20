@@ -37,9 +37,14 @@ public class CommandAddToBasket extends CommandProtectedPage {
 
         int userId = user.getId();
         Timestamp created = null;
-        String status = "In progress";
+        String status = "";
+        if (!status.equals("In basket")){
+            ordersFacade.insertOrder(userId,created,status);
+        }
+        status = "In progress";
 
-        ordersFacade.insertOrder(userId,created,status);
+
+
 
 
 
