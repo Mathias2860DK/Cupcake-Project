@@ -20,31 +20,23 @@ public class OrderlineMapper {
         try (Connection connection = database.connect())
         {
             String sql = "INSERT INTO `olskerCupcake`.`orderline`" +
-                    " (`quantity`," +
+                    " (`orderID`," +
+                    " `quantity`," +
                     " `price`," +
                     " `topping_id`, " +
                     "`bottom_id`)" +
-                    " VALUES ('?', '?', '?', '?');";
+                    " VALUES ('?', '?', '?', '?', '?');";
 
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
             {
-            /*    ps.setInt(1, );
-                ps.setDouble(2, weight );
-                ps.setString(3, category);
-                ps.setDouble(4, bmi);
-                ps.setString(5, gender);
-                ps.setInt(6,sport_id);
-                ps.setInt(7,user_id);
+                ps.setInt(1, orderId);
+                ps.setInt(2, quantity);
+                ps.setDouble(3, price);
+                ps.setInt(4, toppingId);
+                ps.setInt(5, bottomId);
 
                 ps.executeUpdate();
-                ResultSet ids = ps.getGeneratedKeys();
-                ids.next();
-                int bmiEntryId = ids.getInt(1);
-                //TODO: Her skal vi indsætte hobbyer i link_bmi_hobby tabellen
 
-                for (Integer hobbyId : hobbyList) {
-                    insertIntoLinkHobbyBmiEntry(bmiEntryId,hobbyId);
-                }*/
             }
             catch (SQLException ex)
             {

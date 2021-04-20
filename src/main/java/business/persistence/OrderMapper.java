@@ -41,6 +41,7 @@ public class OrderMapper {
         } catch (SQLException | UserException ex) {
             throw new UserException(ex.getMessage());
         }
+
     }
 
     public List<Orders> getAllOrders() throws UserException {

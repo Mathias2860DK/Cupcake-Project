@@ -3,6 +3,7 @@ package web.commands;
 import business.entities.Orders;
 import business.entities.User;
 import business.exceptions.UserException;
+import business.services.OrderlineFacade;
 import business.services.OrdersFacade;
 import business.services.UserFacade;
 
@@ -16,12 +17,14 @@ import java.util.List;
 public class CommandAddToBasket extends CommandProtectedPage {
 
     private OrdersFacade ordersFacade;
+    private OrderlineFacade orderlineFacade;
 
     private UserFacade userFacade;
     public CommandAddToBasket(String pageToShow, String role) {
         super(pageToShow, role);
         userFacade = new UserFacade(database);
         ordersFacade = new OrdersFacade(database);
+        orderlineFacade = new OrderlineFacade(database);
     }
 
     @Override
@@ -29,7 +32,14 @@ public class CommandAddToBasket extends CommandProtectedPage {
 
         HttpSession session = request.getSession();
         User user = null;
-        int user_id = 1;
+        int orderId = 1;
+        int bottomId = Integer.parseInt(request.getParameter("bottom"));
+        int toppingId = Integer.parseInt(request.getParameter("topping"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        double price = 10;
+        int user_id = 0; //hed "1" før
+
+
 
         if (session.getAttribute("user") != null){
             user = (User) session.getAttribute("user");
@@ -52,19 +62,12 @@ public class CommandAddToBasket extends CommandProtectedPage {
         }
         for (Orders orders : ordersList) {
             if (orders.getUserId() == userId && orders.getStatus().equals("In basket")){
-                //Så er der allerede oprettet en ordre.
-                System.out.println("Kommer vi ind her IF ");
+               orderlineFacade.insertOrderline(orderId,quantity, price,toppingId, bottomId );
             } else {
-                System.out.println("Kommer vi ind her ");
                 ordersFacade.insertOrder(userId,created,status);
+                orderlineFacade.insertOrderline(orderId,quantity, price,toppingId, bottomId );
             }
         }
-
-
-
-
-
-
 
         return pageToShow;
     }
