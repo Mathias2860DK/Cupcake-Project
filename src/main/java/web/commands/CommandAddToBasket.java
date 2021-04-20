@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandAddToBasket extends CommandProtectedPage {
@@ -39,15 +40,26 @@ public class CommandAddToBasket extends CommandProtectedPage {
 
         int userId = user.getId();
         Timestamp created = null;
-        String status = "";
-        List<Orders> ordersList = ordersFacade.getAllOrders();
+        String status = "In basket";
+        List<Orders> ordersList = ordersFacade.getAllOrders(); //evt by userId
+        //Hvis der er et userId med en ordre status "In basket" skal der ikke
+        //oprettes en ordre.
+        //Hvis der ikke er et specifikt userId med en en status "In basket" skal
+        //der oprettes en ondre på det userId. med status "In basket"
+        if (ordersList.isEmpty()){
+            ordersList = new ArrayList<>();
+            ordersFacade.insertOrder(userId,created,status);
+        }
         for (Orders orders : ordersList) {
-            if(!orders.getStatus().equals("In basket") && orders.getUserId() == userId){
+            if (orders.getUserId() == userId && orders.getStatus().equals("In basket")){
+                //Så er der allerede oprettet en ordre.
+                System.out.println("Kommer vi ind her IF ");
+            } else {
+                System.out.println("Kommer vi ind her ");
                 ordersFacade.insertOrder(userId,created,status);
             }
         }
 
-        status = "In progress";
 
 
 
