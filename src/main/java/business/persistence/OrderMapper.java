@@ -15,7 +15,7 @@ public class OrderMapper {
         this.database = database;
     }
 
-    public void insertOrder(int userId, Timestamp timestamp, String status) throws UserException {
+    public int insertOrder(int userId, Timestamp timestamp, String status) throws UserException {
         try (Connection connection = database.connect()) {
 
             String sql = "INSERT INTO `olskerCupcake`.`orders`" +
@@ -35,6 +35,7 @@ public class OrderMapper {
                 ids.next();
                 int orderId = ids.getInt(1);
 
+return orderId;
             } catch (SQLException ex) {
                 throw new UserException(ex.getMessage());
             }
@@ -71,6 +72,36 @@ public class OrderMapper {
             throw new UserException("Connection to database could not be established");
         }
     }
-}
+
+    public List<Orders> getOdersByUserId(int userId) throws UserException {
+        List<Orders> orderListById = new ArrayList<>();
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM olskerCupcake.orders where user_id = "+userId +";";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    int orderID = rs.getInt("order_id");
+                    int userID = rs.getInt("user_id");
+                    Timestamp created = rs.getTimestamp("created");
+                    String status = rs.getString("status");
+
+                    Orders orders = new Orders(orderID, userID, created, status);
+                    orderListById.add(orders);
+
+
+
+//TODO: Execute methods to add:
+                }
+                return orderListById;
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+        } catch (SQLException | UserException ex) {
+            throw new UserException("Connection to database could not be established");
+        }
+    }
+    }
+
 
 

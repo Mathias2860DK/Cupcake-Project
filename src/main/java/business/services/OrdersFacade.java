@@ -15,11 +15,15 @@ public class OrdersFacade {
         orderMapper = new OrderMapper(database);
     }
 
-    public void insertOrder(int userId, Timestamp timestamp, String status) throws UserException {
-        orderMapper.insertOrder(userId, timestamp, status);
+    public int insertOrder(int userId, Timestamp timestamp, String status) throws UserException {
+        return orderMapper.insertOrder(userId, timestamp, status);
     }
 
     public List<Orders> getAllOrders() throws UserException {
         return orderMapper.getAllOrders();
+    }
+
+    public List<Orders> getOdersByUserId(int userId) throws UserException {
+        return orderMapper.getOdersByUserId(userId);
     }
 }
