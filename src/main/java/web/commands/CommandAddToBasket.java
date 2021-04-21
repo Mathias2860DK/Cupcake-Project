@@ -34,7 +34,7 @@ public class CommandAddToBasket extends CommandProtectedPage {
         User user = null;
         Orderline orderline = null;
         List<Orderline> orderlineList = null;
-        int orderId = 10;
+        int orderId = 0;
         List<Bottom> bottomList = (List<Bottom>) session.getServletContext().getAttribute("bottomList");
         List<Topping> toppingList = (List<Topping>) session.getServletContext().getAttribute("toppingList");
         int bottomId = Integer.parseInt(request.getParameter("bottom"));
@@ -68,6 +68,11 @@ public class CommandAddToBasket extends CommandProtectedPage {
             orderlineList.add(orderline);
         } else {
             orderId = (int) session.getAttribute("orderId");
+            //TODO: Hvis odreId er 0, ordersListByUserId ikke er tom, er session atributten udløbet,
+            //og der skal laves en ny ordre.
+            if(orderId == 0){
+                orderId = ordersFacade.insertOrder(userId, created, status);
+            }
             orderline = orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
         }
 
