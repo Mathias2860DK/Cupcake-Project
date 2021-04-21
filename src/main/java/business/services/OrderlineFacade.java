@@ -1,5 +1,6 @@
 package business.services;
 
+import business.entities.Orderline;
 import business.exceptions.UserException;
 import business.persistence.Database;
 import business.persistence.OrderlineMapper;
@@ -12,11 +13,11 @@ public class OrderlineFacade {
     public OrderlineFacade(Database database){
         orderlineMapper = new OrderlineMapper(database);
     }
-    public void insertOrderline(int orderId,
-                                            int quantity,
-                                            double price,
-                                            int toppingId,
-                                            int bottomId) throws UserException {
-        orderlineMapper.insertOrderline(orderId, quantity, price, toppingId, bottomId);
+    public Orderline insertOrderline(int orderId,
+                                     int quantity,
+                                     double price,
+                                     int toppingId,
+                                     int bottomId) throws UserException {
+         return orderlineMapper.insertOrderline(orderId, quantity, price, toppingId, bottomId);
     }
 }

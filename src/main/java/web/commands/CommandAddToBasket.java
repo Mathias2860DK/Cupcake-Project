@@ -1,9 +1,6 @@
 package web.commands;
 
-import business.entities.Bottom;
-import business.entities.Orders;
-import business.entities.Topping;
-import business.entities.User;
+import business.entities.*;
 import business.exceptions.UserException;
 import business.services.OrderlineFacade;
 import business.services.OrdersFacade;
@@ -35,6 +32,8 @@ public class CommandAddToBasket extends CommandProtectedPage {
 
         HttpSession session = request.getSession();
         User user = null;
+        Orderline orderline = null;
+        List<Orderline> orderlineList = null;
         int orderId = 10;
         List<Bottom> bottomList = (List<Bottom>) session.getServletContext().getAttribute("bottomList");
         List<Topping> toppingList = (List<Topping>) session.getServletContext().getAttribute("toppingList");
@@ -64,11 +63,19 @@ public class CommandAddToBasket extends CommandProtectedPage {
         if (ordersListByUserId.isEmpty() /*|| ordersListByUserId.get(orderId).getStatus().equals("Paid")*/) {
             orderId = ordersFacade.insertOrder(userId, created, status);
             session.setAttribute("orderId",orderId);
-            orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
+            orderline =orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
+            orderlineList = new ArrayList<>();
+            orderlineList.add(orderline);
         } else {
             orderId = (int) session.getAttribute("orderId");
-            orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
+            orderline = orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
         }
+
+        session.setAttribute("bottomId",bottomId);
+        session.setAttribute("toppingId",toppingId);
+        session.setAttribute("quantity",quantity);
+        session.setAttribute("price",price);
+        session.setAttribute("orderLine",orderline);
 
 /*
         for (Orders orders : ordersListByUserId) {

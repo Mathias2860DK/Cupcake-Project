@@ -1,5 +1,6 @@
 package business.persistence;
 
+import business.entities.Orderline;
 import business.exceptions.UserException;
 
 import java.sql.*;
@@ -12,11 +13,11 @@ public class OrderlineMapper {
         this.database = database;
     }
 
-    public void insertOrderline(int orderId,
-                                int quantity,
-                                double price,
-                                int toppingId,
-                                int bottomId) throws UserException {
+    public Orderline insertOrderline(int orderId,
+                                     int quantity,
+                                     double price,
+                                     int toppingId,
+                                     int bottomId) throws UserException {
         try (Connection connection = database.connect())
         {
             String sql = "INSERT INTO `olskerCupcake`.`orderline`" +
@@ -40,6 +41,7 @@ public class OrderlineMapper {
                 ids.next();
                 int orderlineId = ids.getInt(1);
 
+                return new Orderline(orderlineId,orderId,quantity,price,toppingId,bottomId);
             }
             catch (SQLException ex)
             {
