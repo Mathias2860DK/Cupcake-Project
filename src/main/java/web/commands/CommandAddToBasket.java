@@ -56,29 +56,28 @@ public class CommandAddToBasket extends CommandProtectedPage {
         Timestamp created = null;
         String status = "In basket";
         List<Orders> ordersList = ordersFacade.getAllOrders(); //evt by userId
-        List<Orders> ordersListByUserId = ordersFacade.getOdersByUserId(userId);
+        List<Orders> ordersListByUserId = ordersFacade.getOrdersByUserId(userId);
         //Hvis der er et userId med en ordre status "In basket" skal der ikke
         //oprettes en ordre.
         //Hvis der ikke er et specifikt userId med en en status "In basket" skal
         //der oprettes en ondre på det userId. med status "In basket"
-        if (ordersListByUserId.isEmpty()) {
-            ordersList = new ArrayList<>();
+        if (ordersListByUserId.isEmpty() /*|| ordersListByUserId.get(orderId).getStatus().equals("Paid")*/) {
             orderId = ordersFacade.insertOrder(userId, created, status);
+            session.setAttribute("orderId",orderId);
+            orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
+        } else {
+            orderId = (int) session.getAttribute("orderId");
+            orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
         }
-       int tempOrderId = 0;
 
+/*
         for (Orders orders : ordersListByUserId) {
             if (orders.getUserId() == userId && orders.getStatus().equals("In basket")) {
                 orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
-            } else {
-                tempOrderId = ordersListByUserId.indexOf(orders.getOrderId());
             }
 
-        }
-        if (tempOrderId != 0 ){
-            System.out.println(tempOrderId);
-            ordersFacade.insertOrder(userId,created,status);
-        }
+        }*/
+
         /*
         for (Orders orders : ordersList) {
             if (orders.getUserId() == userId && orders.getStatus().equals("In basket")){

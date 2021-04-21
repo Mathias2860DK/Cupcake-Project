@@ -35,6 +35,7 @@ public class OrderMapper {
                 ids.next();
                 int orderId = ids.getInt(1);
 
+
 return orderId;
             } catch (SQLException ex) {
                 throw new UserException(ex.getMessage());
@@ -73,7 +74,7 @@ return orderId;
         }
     }
 
-    public List<Orders> getOdersByUserId(int userId) throws UserException {
+    public List<Orders> getOrdersByUserId(int userId) throws UserException {
         List<Orders> orderListById = new ArrayList<>();
         try (Connection connection = database.connect()) {
             String sql = "SELECT * FROM olskerCupcake.orders where user_id = "+userId +";";
