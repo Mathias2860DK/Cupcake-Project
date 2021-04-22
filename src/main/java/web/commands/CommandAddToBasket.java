@@ -75,12 +75,18 @@ public class CommandAddToBasket extends CommandProtectedPage {
             }
             orderline = orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
         }
+//find ordre_id via user_id
+        int orderID = ordersFacade.getOrderIdByUserIdAndStatus(userId);
 
-        session.setAttribute("bottomId",bottomId);
+        //Find alle ordelines via orderID
+
+
+
+       /* session.setAttribute("bottomId",bottomId);
         session.setAttribute("toppingId",toppingId);
         session.setAttribute("quantity",quantity);
         session.setAttribute("price",price);
-        session.setAttribute("orderLine",orderline);
+        session.setAttribute("orderLine",orderline);*/
 
 /*
         for (Orders orders : ordersListByUserId) {

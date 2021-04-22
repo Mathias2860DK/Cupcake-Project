@@ -26,4 +26,7 @@ public class OrdersFacade {
     public List<Orders> getOrdersByUserId(int userId) throws UserException {
         return orderMapper.getOrdersByUserId(userId);
     }
+    public int getOrderIdByUserIdAndStatus(int userId) throws UserException {
+        return orderMapper.getOrderIdByUserIdAndStatus(userId);
+    }
 }

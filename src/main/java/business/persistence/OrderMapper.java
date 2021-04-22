@@ -102,6 +102,26 @@ return orderId;
             throw new UserException("Connection to database could not be established");
         }
     }
+
+    public int getOrderIdByUserIdAndStatus(int userId) throws UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM olskerCupcake.orders where user_id = "+userId +" and status = 'In basket'";
+int orderID = 0;
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    orderID = rs.getInt("order_id");
+
+                }
+                return orderID;
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+        } catch (SQLException | UserException ex) {
+            throw new UserException("Connection to database could not be established");
+        }
+    }
     }
 
 

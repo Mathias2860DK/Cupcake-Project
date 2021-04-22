@@ -4,6 +4,7 @@ import business.entities.Orderline;
 import business.exceptions.UserException;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderlineMapper {
@@ -51,6 +52,46 @@ public class OrderlineMapper {
         catch (SQLException ex)
         {
             throw new UserException(ex.getMessage());
+        }
+    }
+
+    public List<Orderline> getAllOrderlinesById(int orderId) throws UserException {
+        List<Orderline> orderlineList = new ArrayList<>();
+        try (Connection connection = database.connect())
+        {
+            String sql = "SELECT * FROM olskerCupcake.orderline WHERE order_id = " + orderId;
+
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+
+                ResultSet rs = ps.executeQuery();
+                while (rs.next())
+                {
+                    int orderlineId = rs.getInt("orderline_id");
+                    int quantity = rs.getInt(3);
+                    double price = rs.getDouble(4);
+                    int toppingId = rs.getInt(5);
+                    int bottomId = rs.getInt(6);
+
+
+             Orderline orderline = new Orderline(orderlineId,orderId,quantity,price,toppingId,bottomId);
+             orderlineList.add(orderline);
+
+//TODO: Execute methods to add:
+                    //sport
+                    //hobby
+                    //user
+                }
+                return orderlineList;
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new UserException("Connection to database could not be established");
         }
     }
 

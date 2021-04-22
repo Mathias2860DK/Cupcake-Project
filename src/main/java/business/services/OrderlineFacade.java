@@ -6,6 +6,7 @@ import business.persistence.Database;
 import business.persistence.OrderlineMapper;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class OrderlineFacade {
     OrderlineMapper orderlineMapper;
@@ -19,5 +20,8 @@ public class OrderlineFacade {
                                      int toppingId,
                                      int bottomId) throws UserException {
          return orderlineMapper.insertOrderline(orderId, quantity, price, toppingId, bottomId);
+    }
+    public List<Orderline> getAllOrderlinesById(int orderId) throws UserException {
+        return orderlineMapper.getAllOrderlinesById(orderId);
     }
 }

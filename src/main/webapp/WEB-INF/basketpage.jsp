@@ -17,13 +17,22 @@
         <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                <h2>Din kurv</h2>
+                <h2>Your basket</h2>
 
+<form action="${pageContext.request.contextPath}/fc/removeorderline" method="post">
 
-                <p>Topping id = ${sessionScope.toppingId}</p>
-                <p>Bottom id = ${sessionScope.bottomId}</p>
-                <p>Pris for odreline = ${sessionScope.price}</p>
+                <c:forEach var="orderlineItem" items="${sessionScope.orderlineList}">
+                    Bottom: ${applicationScope.bottomList.get(orderlineItem.bottomId).bName}<br>
+                    Topping: ${applicationScope.toppingList.get(orderlineItem.toppingId).tName}<br>
+                    Quantity: ${orderlineItem.quantity}<br>
+                    Price: ${orderlineItem.price}
+                    <button type="submit" name="delete" value="${orderlineItem.orderlineId}" >Remove</button>
+                    <button type="submit" name="edit" value="${orderlineItem.orderlineId}" >Edit</button><br><br>
+                </c:forEach>
 
+                <h3>Your total price: ${sessionScope.totalprice} kr. or 0,000070 btc</h3>
+
+</form>
             </div>
 
             <div class="col-sm-4"></div>
