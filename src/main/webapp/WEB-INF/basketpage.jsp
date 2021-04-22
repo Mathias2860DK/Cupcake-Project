@@ -19,7 +19,7 @@
             <div class="col-sm-4">
                 <h2>Your basket</h2>
 
-<form action="${pageContext.request.contextPath}/fc/removeorderline" method="post">
+<form action="${pageContext.request.contextPath}/fc/manageorderline" method="post">
 
                 <c:forEach var="orderlineItem" items="${sessionScope.orderlineList}">
                     Bottom: ${applicationScope.bottomList.get(orderlineItem.bottomId).bName}<br>

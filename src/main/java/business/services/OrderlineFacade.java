@@ -24,4 +24,7 @@ public class OrderlineFacade {
     public List<Orderline> getAllOrderlinesById(int orderId) throws UserException {
         return orderlineMapper.getAllOrderlinesById(orderId);
     }
+    public int deleteOrderline(int orderlineId) throws UserException {
+        return orderlineMapper.deleteOrderline(orderlineId);
+    }
 }

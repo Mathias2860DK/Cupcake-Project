@@ -95,4 +95,31 @@ public class OrderlineMapper {
         }
     }
 
+    public int deleteOrderline(int orderlineId) throws UserException {
+        try (Connection connection = database.connect())
+        {
+            //Virker ikke pga man ikke kan slette et sport_id de bliver brugt i BMI entry tablen.
+            // String sql = "DELETE FROM `bmi`.`sport` WHERE sport_id = ?;";
+
+            String sql = "DELETE FROM `olskerCupcake`.`orderline` WHERE `orderline_id` = " + orderlineId + ";";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
+            {
+
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected;
+
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException | UserException ex)
+        {
+            throw new UserException(ex.getMessage());
+        }
+    }
+
+
 }
