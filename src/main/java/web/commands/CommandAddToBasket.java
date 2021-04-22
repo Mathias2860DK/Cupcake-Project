@@ -62,23 +62,29 @@ public class CommandAddToBasket extends CommandProtectedPage {
         //der oprettes en ondre på det userId. med status "In basket"
         if (ordersListByUserId.isEmpty() /*|| ordersListByUserId.get(orderId).getStatus().equals("Paid")*/) {
             orderId = ordersFacade.insertOrder(userId, created, status);
-            session.setAttribute("orderId",orderId);
+            //session.setAttribute("orderId",orderId);
             orderline =orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
             orderlineList = new ArrayList<>();
             orderlineList.add(orderline);
+            session.setAttribute("orderlineList",orderlineList);
         } else {
-            orderId = (int) session.getAttribute("orderId");
+            //orderId = (int) session.getAttribute("orderId");
             //TODO: Hvis odreId er 0, ordersListByUserId ikke er tom, er session atributten udløbet,
             //og der skal laves en ny ordre.
+            //find ordre_id via user_id
+            int orderID = ordersFacade.getOrderIdByUserIdAndStatus(userId);
+
+            //Find alle ordelines via orderID
+            orderlineList = orderlineFacade.getAllOrderlinesById(orderID);
+            orderline = orderlineFacade.insertOrderline(orderID, quantity, price, toppingId, bottomId);
+            orderlineList.add(orderline);
+            session.setAttribute("orderlineList",orderlineList);
+
             if(orderId == 0){
                 orderId = ordersFacade.insertOrder(userId, created, status);
             }
-            orderline = orderlineFacade.insertOrderline(orderId, quantity, price, toppingId, bottomId);
-        }
-//find ordre_id via user_id
-        int orderID = ordersFacade.getOrderIdByUserIdAndStatus(userId);
 
-        //Find alle ordelines via orderID
+        }
 
 
 
