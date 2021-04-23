@@ -17,13 +17,20 @@
 
 
         <table>
-        <thead><th>Id</th><th>Email</th><th>Role</th><th>Balance</th></thead>
+        <thead><th>Id</th><th>Email</th><th>Role</th><th>Balance</th><th>Pick order</th></thead>
             <c:forEach var="users" items="${requestScope.userList}">
-                <tr><td>${users.id}</td>
+
+                <tr>
+                    <form action="${pageContext.request.contextPath}/fc/orders" method="post">
+                    <td>${users.id}</td>
                     <td>${users.email}</td>
                     <td>${users.role}</td>
                     <td>${users.balance}</td>
+                    <td><button type="submit" name="userid" value="${users.id}" class="btn btn-primary">Orders</button></td>
+
+                    </form>
                 </tr>
+
             </c:forEach>
 
         </table>
