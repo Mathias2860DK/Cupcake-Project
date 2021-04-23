@@ -34,31 +34,37 @@ Orderline orderline = null;
 //TODO: Delete skal laves og totalprice skal opdateres.
         String deleteOrderline = request.getParameter("delete");
         String editOrderline = request.getParameter("edit"); //TODO: Make it work
-        if (deleteOrderline != null){
-         List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
+        if (deleteOrderline != null) {
+            List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
 //deleteordliner svarer ikke til indexet. Check om deleteordline (id) findes i orderlinelisten. hvis ja så slet den orderline
-if (orderlineList != null) {
+            if (orderlineList != null) {
 
-    for (Orderline orderline1 : orderlineList) { //denne linje giver en ConcurrentModificationException. Men metoden virker.. TODO MAKE IT WORK
-        int cartItem = orderline1.getCartItem();
-        int orderlineItem = Integer.parseInt(deleteOrderline);
-        if (cartItem == orderlineItem) {
-            orderlineList.remove(orderline1);
-            session.setAttribute("orderlineList", orderlineList);
-            System.out.println("kommer vi ind her for loop");
+                for (Orderline orderline1 : orderlineList) { //denne linje giver en ConcurrentModificationException. Men metoden virker.. TODO MAKE IT WORK
+                    int cartItem = orderline1.getCartItem();
+                    int orderlineItem = Integer.parseInt(deleteOrderline);
+                    if (cartItem == orderlineItem) {
+                        orderlineList.remove(orderline1);
+                        session.setAttribute("orderlineList", orderlineList);
+                        System.out.println("kommer vi ind her for loop");
 
+                    }
+                }
+            }
+
+            //Udregn samlede pris for orderline via et orderId
+            double totalPrice = 0;
+            for (Orderline orderline1 : orderlineList) {
+                totalPrice += orderline1.getPrice();
+                session.setAttribute("totalprice", totalPrice);
+
+
+                System.out.println(deleteOrderline);
+                //orderline = request.getParameter("delete");
+                session.setAttribute("orderlineList", orderlineList);
+
+
+            }
         }
-    }
-}
-
-            System.out.println(deleteOrderline);
-         //orderline = request.getParameter("delete");
-            session.setAttribute("orderlineList",orderlineList);
-
-
-
-        }
-
         //session.setAttribute("");
 
 
