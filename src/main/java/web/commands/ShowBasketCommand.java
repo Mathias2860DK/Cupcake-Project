@@ -27,29 +27,21 @@ public class ShowBasketCommand extends CommandProtectedPage {
         User user = null;
         int userId = 0;
         HttpSession session = request.getSession();
-        if (session.getAttribute("user") != null) {
-            user = (User) session.getAttribute("user");
-            userId = user.getId();
-        } else {
-//Hvis user ikke er forskellig fra null, skal man ikke kan ligge ting i sin kurv
-        }
-        //find ordre_id via user_id
-        int orderID = ordersFacade.getOrderIdByUserIdAndStatus(userId);
 
-        //Find alle ordelines via orderID
-List<Orderline> orderlineList = orderlineFacade.getAllOrderlinesById(orderID);
 
-//Udregn samlede pris for orderline via et orderId
-        double totalPrice = 0;
-        for (Orderline orderline : orderlineList) {
-            totalPrice +=orderline.getPrice();
-        }
+List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
 
+if (orderlineList == null){
+    request.setAttribute("error","Your basket is empty");
+} else {
+    //Udregn samlede pris for orderline via et orderId
+    double totalPrice = 0;
+    for (Orderline orderline : orderlineList) {
+        totalPrice +=orderline.getPrice();
         session.setAttribute("totalprice",totalPrice);
-
         session.setAttribute("orderlineList",orderlineList);
-
-
+    }
+}
 
 
         return pageToShow;

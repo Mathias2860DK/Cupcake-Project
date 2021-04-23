@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ManageOrderlineCommand extends CommandProtectedPage{
     private OrderlineFacade orderlineFacade;
@@ -24,46 +25,42 @@ public class ManageOrderlineCommand extends CommandProtectedPage{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
-        System.out.println(" does it wooork");
-        int userId = 0;
-        User user = null;
+
         HttpSession session = request.getSession();
-        if (session.getAttribute("user") != null) {
-            user = (User) session.getAttribute("user");
-            userId = user.getId();
-        } else {
-//Hvis user ikke er forskellig fra null, skal man ikke kan ligge ting i sin kurv
-        }
-        //find ordre_id via user_id
-        int orderID = ordersFacade.getOrderIdByUserIdAndStatus(userId);
 
 
-        String deleteOrderline = request.getParameter("delete"); //value = orderlineID
+
+Orderline orderline = null;
+//TODO: Delete skal laves og totalprice skal opdateres.
+        String deleteOrderline = request.getParameter("delete");
         String editOrderline = request.getParameter("edit"); //TODO: Make it work
-
         if (deleteOrderline != null){
-            //delete from database.
-            int rowsAffected = orderlineFacade.deleteOrderline(Integer.parseInt(deleteOrderline));
-            if (rowsAffected > 0){
+         List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
+//deleteordliner svarer ikke til indexet. Check om deleteordline (id) findes i orderlinelisten. hvis ja så slet den orderline
+if (orderlineList != null) {
 
-                orderlineFacade.getAllOrderlinesById(orderID);
-                List<Orderline> orderlineList = orderlineFacade.getAllOrderlinesById(orderID);
-                double totalPrice = 0;
-                for (Orderline orderline : orderlineList) {
-                    totalPrice +=orderline.getPrice();
-                }
+    for (Orderline orderline1 : orderlineList) { //denne linje giver en ConcurrentModificationException. Men metoden virker.. TODO MAKE IT WORK
+        int cartItem = orderline1.getCartItem();
+        int orderlineItem = Integer.parseInt(deleteOrderline);
+        if (cartItem == orderlineItem) {
+            orderlineList.remove(orderline1);
+            session.setAttribute("orderlineList", orderlineList);
+            System.out.println("kommer vi ind her for loop");
 
-                session.setAttribute("totalprice",totalPrice);
+        }
+    }
+}
 
-                session.setAttribute("orderlineList",orderlineList);
-            }
+            System.out.println(deleteOrderline);
+         //orderline = request.getParameter("delete");
+            session.setAttribute("orderlineList",orderlineList);
+
+
 
         }
 
-        //Find alle ordelines via orderID
+        //session.setAttribute("");
 
-
-//Udregn samlede pris for orderline via et orderId
 
 
         return pageToShow;

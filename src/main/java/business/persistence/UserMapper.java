@@ -4,6 +4,8 @@ import business.exceptions.UserException;
 import business.entities.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserMapper
 {
@@ -12,6 +14,45 @@ public class UserMapper
     public UserMapper(Database database)
     {
         this.database = database;
+    }
+
+    public List<User> getAllUsers() throws UserException {
+        //SELECT * FROM olskerCupcake.users;
+        List<User> userList = new ArrayList<>();
+        try (Connection connection = database.connect())
+        {
+            String sql = "SELECT * FROM olskerCupcake.users;";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next())
+                {
+                    int id = rs.getInt("id");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    String role = rs.getString("role");
+                    double balance = rs.getDouble("balance");
+
+
+
+                    User user = new User(id,email,password,role,balance);
+
+                    userList.add(user);
+
+                }
+                return userList;
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new UserException("Connection to database could not be established");
+        }
+
     }
 
     public void createUser(User user) throws UserException

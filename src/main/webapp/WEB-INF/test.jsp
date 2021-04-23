@@ -13,7 +13,20 @@
         You are now logged in as a EMPLOYEE of our wonderful site.
         <h2>All customers</h2>
         <p>Pick a customer and show orders and orderlines</p>
-        <p><a href="${pageContext.request.contextPath}/fc/test">Show all customers</a></p>
+
+
+
+        <table>
+        <thead><th>Id</th><th>Email</th><th>Role</th><th>Balance</th></thead>
+            <c:forEach var="users" items="${requestScope.userList}">
+                <tr><td>${users.id}</td>
+                    <td>${users.email}</td>
+                    <td>${users.role}</td>
+                    <td>${users.balance}</td>
+                </tr>
+            </c:forEach>
+
+        </table>
 
 
 

@@ -22,11 +22,13 @@
 <form action="${pageContext.request.contextPath}/fc/manageorderline" method="post">
 
                 <c:forEach var="orderlineItem" items="${sessionScope.orderlineList}">
+                    counter: ${orderlineItem.toString()}
+
                     Bottom: ${applicationScope.bottomList.get(orderlineItem.bottomId).bName}<br>
                     Topping: ${applicationScope.toppingList.get(orderlineItem.toppingId).tName}<br>
                     Quantity: ${orderlineItem.quantity}<br>
                     Price: ${orderlineItem.price}
-                    <button type="submit" name="delete" value="${orderlineItem.orderlineId}" >Remove</button>
+                    <button type="submit" name="delete" value="${orderlineItem.cartItem}" >Remove</button>
                     <button type="submit" name="edit" value="${orderlineItem.orderlineId}" >Edit</button><br><br>
                 </c:forEach>
 

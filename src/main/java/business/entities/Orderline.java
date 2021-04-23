@@ -7,6 +7,8 @@ public class Orderline {
     private double price;
     private int toppingId;
     private int bottomId;
+    public static int counter = 0;
+    int cartItem;
 
     public int getOrderlineId() {
         return orderlineId;
@@ -63,5 +65,25 @@ public class Orderline {
         this.price = price;
         this.toppingId = toppingId;
         this.bottomId = bottomId;
+    }
+    public Orderline(int quantity, double price, int toppingId, int bottomId) {
+        this.quantity = quantity;
+        this.price = price;
+        this.toppingId = toppingId;
+        this.bottomId = bottomId;
+        this.cartItem = counter++;
+    }
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public int getCartItem() {
+        return cartItem;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(cartItem);
     }
 }
