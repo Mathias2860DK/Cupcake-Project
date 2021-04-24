@@ -31,7 +31,7 @@
                     <button type="submit" name="delete" value="${orderlineItem.cartItem}" >Remove</button>
                     <button type="submit" name="edit" value="${orderlineItem.orderlineId}" >Edit</button><br><br>
                 </c:forEach>
-
+    <button type="submit" name="pay" value="${orderlineItem.cartItem}" >Pay</button>
                 <h3>Your total price: ${sessionScope.totalprice} kr. or 0,000070 btc</h3>
 
 </form>
