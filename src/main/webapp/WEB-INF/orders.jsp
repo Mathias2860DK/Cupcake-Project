@@ -25,7 +25,7 @@
                     <td>${orders.userId}</td>
                     <td>${orders.created}</td>
                     <td>${orders.status}</td>
-                     <td><button type="submit" name="oderid" value="${orders.orderId}" class="btn btn-primary">Orderlines</button></td>
+                     <td><button type="submit" name="orderid" value="${orders.orderId}" class="btn btn-primary">Orderlines</button></td>
 
                     </form>
                 </tr>

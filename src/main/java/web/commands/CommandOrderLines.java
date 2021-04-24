@@ -20,7 +20,9 @@ public class CommandOrderLines extends CommandProtectedPage{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
         HttpSession session = request.getSession();
+
         int orderId = Integer.parseInt(request.getParameter("orderid"));
+        System.out.println("orderId" + orderId);
         List<Orderline> orderlineList = orderlineFacade.getAllOrderlinesById(orderId);
         session.setAttribute("orderlineList",orderlineList);
 
