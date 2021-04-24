@@ -27,4 +27,7 @@ public class OrderlineFacade {
     public int deleteOrderline(int orderlineId) throws UserException {
         return orderlineMapper.deleteOrderline(orderlineId);
     }
+    public int deleteOrderLinesByOrderId(int orderId) throws UserException {
+        return orderlineMapper.deleteOrderLinesByOrderId(orderId);
+    }
 }

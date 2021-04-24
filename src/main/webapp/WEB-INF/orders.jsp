@@ -17,7 +17,7 @@
 
 
         <table>
-            <thead><th>Order Id</th><th>User Id</th><th>Created</th><th>Status</th><th>Pick orderLine</th></thead>
+            <thead><th>Order Id</th><th>User Id</th><th>Created</th><th>Status</th><th>Pick orderLine</th><th>Delete order and orderlines</th></thead>
             <c:forEach var="orders" items="${sessionScope.orderList}">
                 <tr>
                     <form action="${pageContext.request.contextPath}/fc/orderlines" method="post">
@@ -25,8 +25,8 @@
                     <td>${orders.userId}</td>
                     <td>${orders.created}</td>
                     <td>${orders.status}</td>
-                     <td><button type="submit" name="orderid" value="${orders.orderId}" class="btn btn-primary">Orderlines</button></td>
-
+                    <td><button type="submit" name="orderid" value="${orders.orderId}" class="btn btn-primary">Orderlines</button></td>
+                    <td><button type="submit" name="orderidtodelete" value="${orders.orderId}" class="btn btn-primary">Delete</button></td>
                     </form>
                 </tr>
             </c:forEach>

@@ -29,4 +29,7 @@ public class OrdersFacade {
     public int getOrderIdByUserIdAndStatus(int userId) throws UserException {
         return orderMapper.getOrderIdByUserIdAndStatus(userId);
     }
+    public int deleteOrder(int orderId) throws UserException {
+        return orderMapper.deleteOrder(orderId);
+    }
 }
