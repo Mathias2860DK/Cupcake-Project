@@ -18,7 +18,7 @@ public class OrderMapper {
     public int insertOrder(int userId, Timestamp timestamp, String status) throws UserException {
         try (Connection connection = database.connect()) {
 
-            String sql = "INSERT INTO `olskerCupcake`.`orders`" +
+            String sql = "INSERT INTO `orders`" +
                     " (`user_id`," +
                     " `created`, " +
                     "`status`)" +
@@ -49,7 +49,7 @@ return orderId;
     public List<Orders> getAllOrders() throws UserException {
         List<Orders> orderList = new ArrayList<>();
         try (Connection connection = database.connect()) {
-            String sql = "SELECT * FROM olskerCupcake.orders;";
+            String sql = "SELECT * FROM orders;";
 
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
@@ -77,7 +77,7 @@ return orderId;
     public List<Orders> getOrdersByUserId(int userId) throws UserException {
         List<Orders> orderListById = new ArrayList<>();
         try (Connection connection = database.connect()) {
-            String sql = "SELECT * FROM olskerCupcake.orders where user_id = "+userId +";";
+            String sql = "SELECT * FROM orders where user_id = "+userId +";";
 
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
@@ -128,7 +128,7 @@ int orderID = 0;
             //Virker ikke pga man ikke kan slette et sport_id de bliver brugt i BMI entry tablen.
             // String sql = "DELETE FROM `bmi`.`sport` WHERE sport_id = ?;";
 
-            String sql = "DELETE FROM `olskerCupcake`.`orders` WHERE `order_id` = " + orderId + ";";
+            String sql = "DELETE FROM orders WHERE `order_id` = " + orderId + ";";
 
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
             {
