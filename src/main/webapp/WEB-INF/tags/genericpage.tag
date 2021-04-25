@@ -47,7 +47,16 @@
         <c:if test="${addHomeLink == null }">
             <a class="p-2 text-dark" href="<%=request.getContextPath()%>">Home</a>
         </c:if>
-        <a class="p-2 text-dark" href="${pageContext.request.contextPath}/fc/showbasketcommand">Orders</a>
+
+        <c:if test="${sessionScope.role ==  'customer'}">
+            <a class="p-2 text-dark" href="${pageContext.request.contextPath}/fc/showbasketcommand">Orders</a>
+        </c:if>
+
+
+
+        <c:if test="${sessionScope.role ==  'employee'}">
+            <a class="p-2 text-dark" href="${pageContext.request.contextPath}/fc/test">Manage</a>
+        </c:if>
         <a class="p-2 text-dark" href="#">Profile</a>
         <a class="p-2 text-dark" href="#">About</a>
 

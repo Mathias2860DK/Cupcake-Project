@@ -4,15 +4,14 @@
 
 <t:genericpage>
     <jsp:attribute name="header">
-         Demo Page for Employee Roles
+         Manage website
     </jsp:attribute>
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
         <h1>Hello ${sessionScope.email} </h1>
-        You are now logged in as a EMPLOYEE of our wonderful site.
-        <h2>All customers</h2>
-        <p>Pick a customer and show orders and orderlines</p>
+        You are now logged in as a employee
+        <h2>Manage orders and users</h2>
         <p><a href="${pageContext.request.contextPath}/fc/test">Show all customers</a></p>
 
 

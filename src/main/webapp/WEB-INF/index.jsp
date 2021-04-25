@@ -15,7 +15,7 @@
     <jsp:body>
 
         <div>
-            <h2>Our Cool Site</h2>
+            <h2>Order your cupcakes here!</h2>
 
             <div
                     id="carouselExampleControls"
@@ -67,28 +67,28 @@
 
 
             <div style="margin-top: 3em;margin-bottom: 3em;">
-                Main page for this 2. semester start project used at cphbusiness.dk
+                Customize your own cupcake! NOTE: You have to be logged in to add cupcakes to your basket
             </div>
 
             <form method="post" action="${pageContext.request.contextPath}/fc/addtobasket">
 
-                <label for="bottom">Vælg din bund:</label>
+                <label for="bottom">Choose your bottom:</label>
                 <select name="bottom" id="bottom">
                     <c:forEach var="bottom" items="${applicationScope.bottomList}">
-                        <option value="${bottom.bottomId}">${bottom.bName} ... ${bottom.price} kr.</option>
+                        <option value="${bottom.bottomId}">${bottom.bName} ... ${bottom.price} DKK.</option>
 
                     </c:forEach>
                 </select>
 
-                <label for="topping">Vælg din topping:</label>
+                <label for="topping">Choose your topping:</label>
                 <select name="topping" id="topping">
                     <c:forEach var="topping" items="${applicationScope.toppingList}">
-                        <option value="${topping.toppingId}">${topping.tName} ... ${topping.price} kr.</option>
+                        <option value="${topping.toppingId}">${topping.tName} ... ${topping.price} DKK.</option>
 
                     </c:forEach>
 
                 </select>
-                <label for ="quantity">Vælg antal </label>
+                <label for ="quantity">Quantity:</label>
                 <select name="quantity" id="quantity">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -100,7 +100,7 @@
 
 
 
-                <button type="submit" class="btn btn-primary">Tilføj til kurv</button>
+                <button type="submit" class="btn btn-primary">Add to basket</button>
 
                 <c:if test="${requestScope.error != null}">
                     <p style="color: red">${requestScope.error}</p>
@@ -109,18 +109,6 @@
 
                 <div class="col-sm-4"></div>
             </form>
-
-            <c:if test="${sessionScope.role == 'employee' }">
-                <p style="font-size: larger">This is what you can do,
-                    since your are logged in as an employee</p>
-                 <p><a href="fc/employeepage">Employee Page</a>
-             </c:if>
-
-             <c:if test="${sessionScope.role == 'customer' }">
-                <p style="font-size: larger">This is what you can do, since your
-                    are logged in as a customer</p>
-                <p><a href="fc/customerpage">Customer Page</a>
-            </c:if>
 
         </div>
 

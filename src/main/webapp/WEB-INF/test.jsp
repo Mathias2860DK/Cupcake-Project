@@ -4,20 +4,20 @@
 
 <t:genericpage>
     <jsp:attribute name="header">
-         Demo Page for Employee Roles
+        Manage users
     </jsp:attribute>
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
-        <h1>Hello ${sessionScope.email} </h1>
-        You are now logged in as a EMPLOYEE of our wonderful site.
+
         <h2>All customers</h2>
-        <p>Pick a customer and show orders and orderlines</p>
+        <p>Pick a customer and show their orders. Afterwards you can check their orderlines</p>
+        <p>If a user wants to withdraw money edit their edit balance and click confirm when ready!</p>
 
 
 
         <table>
-        <thead><th>Id</th><th>Email</th><th>Role</th><th>Balance</th><th>Pick order</th><th>Edit balance</th></thead>
+        <thead><th>Id  </th><th>Email  </th><th>Role  </th><th>Balance  </th><th>Pick order  </th><th>Edit balance  </th></thead>
             <c:forEach var="users" items="${sessionScope.userList}">
 
                 <tr>
@@ -34,6 +34,10 @@
                 </tr>
 
             </c:forEach>
+
+            <c:if test="${requestScope.sucess != null}">
+                <p style="color: green">${requestScope.sucess}</p>
+            </c:if>
 
         </table>
 

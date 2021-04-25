@@ -40,9 +40,10 @@ public class OrdersAndOrderlines extends CommandProtectedPage {
             session.setAttribute("orderList",ordersList);
         }
 
-        if (editBalance != null){
+        if (userIdValue != null){
             //skal tilføjes
             //try catch skal laves
+
             int editBalanceInt = Integer.parseInt(editBalance);
             int userIdValueInt = Integer.parseInt(userIdValue);
             System.out.println(editBalanceInt);
@@ -55,7 +56,7 @@ public class OrdersAndOrderlines extends CommandProtectedPage {
             userFacade.insertBalance(user);
             List<User> userList = userFacade.getAllUsers();
             session.setAttribute("userList",userList);
-
+            request.setAttribute("sucess","Succes! Monney has been inserted");
 
 return "test";
         }

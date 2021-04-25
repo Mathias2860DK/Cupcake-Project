@@ -32,7 +32,7 @@
                     <button type="submit" name="edit" value="${orderlineItem.orderlineId}" >Edit</button><br><br>
                 </c:forEach>
     <button type="submit" name="pay" value="${orderlineItem.cartItem}" >Pay</button>
-                <h3>Your total price: ${sessionScope.totalprice} kr. or 0,000070 btc</h3>
+                <h3>Your total price: ${sessionScope.totalprice} DKK</h3>
     <c:if test="${requestScope.error != null}">
         <p style="color: red">${requestScope.error}</p>
     </c:if>
@@ -44,30 +44,7 @@
             <div class="col-sm-4"></div>
         </div>
 
-        <div>
-            <h2>Our Cool Site</h2>
-            </div>
 
-
-
-            <div style="margin-top: 3em;margin-bottom: 3em;">
-                Main page for this 2. semester start project used at cphbusiness.dk
-            </div>
-
-
-            <c:if test="${sessionScope.role == 'employee' }">
-                <p style="font-size: larger">This is what you can do,
-                    since your are logged in as an employee</p>
-                 <p><a href="fc/employeepage">Employee Page</a></p>
-             </c:if>
-
-             <c:if test="${sessionScope.role == 'customer' }">
-                <p style="font-size: larger">This is what you can do, since your
-                    are logged in as a customer</p>
-                <p><a href="fc/customerpage">Customer Page</a></p>
-            </c:if>
-
-        </div>
 
 
     </jsp:body>
