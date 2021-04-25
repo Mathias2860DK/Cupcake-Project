@@ -31,4 +31,12 @@ public class UserFacade
         return userMapper.getAllUsers();
     }
 
+    public User getUserById(int userId) throws UserException {
+        return userMapper.getUserById(userId);
+    }
+
+    public double insertBalance(User user) throws UserException {
+        return userMapper.insertBalance(user);
+    }
+
 }

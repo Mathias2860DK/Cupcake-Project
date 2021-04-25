@@ -8,7 +8,6 @@ public class User
         this.email = email;
         this.password = password;
         this.role = role;
-        this.balance = 0;
     }
 
     public User(int id, String email, String password, String role, double balance) {

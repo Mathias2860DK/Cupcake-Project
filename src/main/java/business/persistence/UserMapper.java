@@ -7,13 +7,71 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserMapper
-{
+public class UserMapper {
     private Database database;
 
-    public UserMapper(Database database)
-    {
+    public UserMapper(Database database) {
         this.database = database;
+    }
+
+    public double insertBalance(User user) throws UserException {
+        double userBalance = user.getBalance();
+        try (Connection connection = database.connect()) {
+            String sql = "UPDATE `users` SET `balance` = " + userBalance + " WHERE (`id` = "+ user.getId() + ");";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+                ps.executeUpdate();
+
+                return userBalance;
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+        } catch (SQLException ex) {
+            throw new UserException(ex.getMessage());
+        }
+    }
+
+
+
+
+
+
+    public User getUserById(int userId) throws UserException {
+        //SELECT * FROM olskerCupcake.users;
+        User user = null;
+        try (Connection connection = database.connect())
+        {
+            String sql = "SELECT * FROM users where id = " + userId;
+
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next())
+                {
+                    int id = rs.getInt("id");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    String role = rs.getString("role");
+                    double balance = rs.getDouble("balance");
+
+                    user = new User(id,email,password,role,balance);
+
+
+
+                }
+                return user;
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new UserException("Connection to database could not be established");
+        }
+
     }
 
     public List<User> getAllUsers() throws UserException {
@@ -116,5 +174,8 @@ public class UserMapper
             throw new UserException("Connection to database could not be established");
         }
     }
+
+
+
 
 }

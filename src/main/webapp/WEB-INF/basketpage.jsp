@@ -33,6 +33,10 @@
                 </c:forEach>
     <button type="submit" name="pay" value="${orderlineItem.cartItem}" >Pay</button>
                 <h3>Your total price: ${sessionScope.totalprice} kr. or 0,000070 btc</h3>
+    <c:if test="${requestScope.error != null}">
+        <p style="color: red">${requestScope.error}</p>
+    </c:if>
+
 
 </form>
             </div>

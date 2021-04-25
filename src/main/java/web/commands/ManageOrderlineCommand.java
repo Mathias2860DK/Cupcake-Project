@@ -5,6 +5,7 @@ import business.entities.User;
 import business.exceptions.UserException;
 import business.services.OrderlineFacade;
 import business.services.OrdersFacade;
+import business.services.UserFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,11 +17,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ManageOrderlineCommand extends CommandProtectedPage{
     private OrderlineFacade orderlineFacade;
     private OrdersFacade ordersFacade;
+    private UserFacade userFacade;
 
     public ManageOrderlineCommand(String pageToShow, String role) {
         super(pageToShow, role);
         orderlineFacade = new OrderlineFacade(database);
         ordersFacade = new OrdersFacade(database);
+        userFacade = new UserFacade(database);
 
     }
 
@@ -47,23 +50,38 @@ Orderline orderline = null;
 
         //TODO: Der skal checkes om balanace er høj nok
         if (pay != null) {
-            List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
-            int orderId = ordersFacade.insertOrder(userId,new Timestamp(System.currentTimeMillis()),"paid");
-            for (Orderline orderline1 : orderlineList) {
-                int quantity = orderline1.getQuantity();
-                double price = orderline1.getPrice();
-                int toppingId = orderline1.getToppingId();
-                int bottomId = orderline1.getBottomId();
-                orderlineFacade.insertOrderline(orderId,quantity,price,toppingId,bottomId);
+            //tjekker om balance er høj nok
+            user = userFacade.getUserById(userId);
+            double totalPrice = (double) session.getAttribute("totalprice");
+            double userBalance = user.getBalance();
+            if (userBalance > totalPrice){
+                List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
+                int orderId = ordersFacade.insertOrder(userId,new Timestamp(System.currentTimeMillis()),"paid");
+                for (Orderline orderline1 : orderlineList) {
+                    int quantity = orderline1.getQuantity();
+                    double price = orderline1.getPrice();
+                    int toppingId = orderline1.getToppingId();
+                    int bottomId = orderline1.getBottomId();
+                    orderlineFacade.insertOrderline(orderId,quantity,price,toppingId,bottomId);
+            }
+                //tømmer kurven efter kunden har betalt
+                orderlineList.clear();
+                session.setAttribute("orderlineList",orderlineList);
+                //sætter den totale pris til 0 efter kurven er tømt.
+                session.setAttribute("totalprice",0);
+                double newBalance = user.getBalance()-totalPrice;
+                user.setBalance(newBalance);
+            userFacade.insertBalance(user);
+
+
+
+            } else {
+                request.setAttribute("error","You do not have enough money :(");
             }
 
             //TODO: Returnér brugeren til en kvitteringside.
 
-            //tømmer kurven efter kunden har betalt
-orderlineList.clear();
-            session.setAttribute("orderlineList",orderlineList);
-            //sætter den totale pris til 0 efter kurven er tømt.
-            session.setAttribute("totalprice",0);
+
 
         }
         if (deleteOrderline != null) {
