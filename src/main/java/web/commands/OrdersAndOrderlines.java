@@ -25,9 +25,25 @@ public class OrdersAndOrderlines extends CommandProtectedPage {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
         HttpSession session = request.getSession();
-        int userId = Integer.parseInt(request.getParameter("userid"));
-        List<Orders> ordersList = ordersFacade.getOrdersByUserId(userId);
-        session.setAttribute("orderList",ordersList);
+        String editBalance = request.getParameter("editbalance");
+        String userId = request.getParameter("userid");
+
+        if (userId != null){
+
+            int userIdInt = Integer.parseInt(request.getParameter("userid"));
+            List<Orders> ordersList = ordersFacade.getOrdersByUserId(userIdInt);
+            session.setAttribute("orderList",ordersList);
+        }
+
+        if (editBalance != null){
+            System.out.println("hey");
+            return
+        }
+
+
+
+
+
 
 
 

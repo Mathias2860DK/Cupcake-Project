@@ -17,7 +17,7 @@
 
 
         <table>
-        <thead><th>Id</th><th>Email</th><th>Role</th><th>Balance</th><th>Pick order</th></thead>
+        <thead><th>Id</th><th>Email</th><th>Role</th><th>Balance</th><th>Pick order</th><th>Edit balance</th></thead>
             <c:forEach var="users" items="${requestScope.userList}">
 
                 <tr>
@@ -27,6 +27,7 @@
                     <td>${users.role}</td>
                     <td>${users.balance}</td>
                     <td><button type="submit" name="userid" value="${users.id}" class="btn btn-primary">Orders</button></td>
+                    <td><input class="form-control" type="text" name="email" placeholder="someone@nowhere.com"></td>
 
                     </form>
                 </tr>
