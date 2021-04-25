@@ -36,6 +36,7 @@
     <c:if test="${requestScope.error != null}">
         <p style="color: red">${requestScope.error}</p>
     </c:if>
+    <!--Få brugeren hen på en kvitteringside hvor de kan se hele deres odre og gem denne ordre-->
 
 
 </form>

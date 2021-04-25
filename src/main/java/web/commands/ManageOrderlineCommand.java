@@ -86,10 +86,10 @@ Orderline orderline = null;
         }
         if (deleteOrderline != null) {
             List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
-//deleteordliner svarer ikke til indexet. Check om deleteordline (id) findes i orderlinelisten. hvis ja så slet den orderline
+
             if (orderlineList != null) {
 
-                for (Orderline orderline1 : orderlineList) { //denne linje giver en ConcurrentModificationException. Men metoden virker.. TODO MAKE IT WORK
+                for (Orderline orderline1 : orderlineList) { //denne linje giver en ConcurrentModificationException. Men metoden virker.. 1krs dusør til ham der løser det!
                     int cartItem = orderline1.getCartItem();
                     int orderlineItem = Integer.parseInt(deleteOrderline);
                     if (cartItem == orderlineItem) {

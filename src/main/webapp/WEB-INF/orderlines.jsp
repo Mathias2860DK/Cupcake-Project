@@ -9,10 +9,9 @@
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
-        <h1>Hello ${sessionScope.email} </h1>
-        You are now logged in as a EMPLOYEE of our wonderful site.
-        <h2>Orders by picked user</h2>
-        <p>Pick a order and show it's orderlines</p>
+        <h1>Orderlines by order </h1>
+
+
 
 
 
@@ -31,7 +30,7 @@
             </c:forEach>
 
         </table>
-
+<!--Der skal være en tilbage knap eller en knap der hedder slet hele orderen-->
 
 
     </jsp:body>

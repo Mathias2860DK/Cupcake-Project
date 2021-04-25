@@ -27,6 +27,7 @@
                     <td>${orders.status}</td>
                     <td><button type="submit" name="orderid" value="${orders.orderId}" class="btn btn-primary">Orderlines</button></td>
                     <td><button type="submit" name="orderidtodelete" value="${orders.orderId}" class="btn btn-primary">Delete</button></td>
+                        <!--Delete knappen skal ikke hen til orderlines siden. Den skal blive på samme side og skrive 'deleted sucessfully' eller lignende.-->
                     </form>
                 </tr>
             </c:forEach>

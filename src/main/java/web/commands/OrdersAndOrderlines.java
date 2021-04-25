@@ -42,7 +42,7 @@ public class OrdersAndOrderlines extends CommandProtectedPage {
 
         if (userIdValue != null){
             //skal tilføjes
-            //try catch skal laves
+            //try catch skal laves. Giver NumberFormatException
 
             int editBalanceInt = Integer.parseInt(editBalance);
             int userIdValueInt = Integer.parseInt(userIdValue);
