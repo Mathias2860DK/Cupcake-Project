@@ -69,8 +69,8 @@ public class Orderline {
     public Orderline(int quantity, double price, int toppingId, int bottomId) {
         this.quantity = quantity;
         this.price = price;
-        this.toppingId = toppingId;
-        this.bottomId = bottomId;
+        this.toppingId = toppingId-1;//lappe løsning
+        this.bottomId = bottomId-1;
         this.cartItem = counter++;
     }
 

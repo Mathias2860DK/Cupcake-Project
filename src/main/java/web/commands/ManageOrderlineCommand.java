@@ -44,9 +44,10 @@ public class ManageOrderlineCommand extends CommandProtectedPage{
 
 Orderline orderline = null;
 //TODO: Delete skal laves og totalprice skal opdateres.
-        String deleteOrderline = request.getParameter("delete");
+        String delete = request.getParameter("delete");
         String pay = request.getParameter("pay");
-        String editOrderline = request.getParameter("edit"); //TODO: Make it work
+        String edit = request.getParameter("edit");
+
 
         //TODO: Der skal checkes om balanace er høj nok
         if (pay != null) {
@@ -62,7 +63,7 @@ Orderline orderline = null;
                     double price = orderline1.getPrice();
                     int toppingId = orderline1.getToppingId();
                     int bottomId = orderline1.getBottomId();
-                    orderlineFacade.insertOrderline(orderId,quantity,price,toppingId,bottomId);
+                    orderlineFacade.insertOrderline(orderId,quantity,price,toppingId+1,bottomId+1);//lappe løsning
             }
                 //tømmer kurven efter kunden har betalt
                 orderlineList.clear();
@@ -84,14 +85,14 @@ Orderline orderline = null;
 
 
         }
-        if (deleteOrderline != null) {
+        if (delete != null) {
             List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
 
             if (orderlineList != null) {
 
                 for (Orderline orderline1 : orderlineList) { //denne linje giver en ConcurrentModificationException. Men metoden virker.. 1krs dusør til ham der løser det!
                     int cartItem = orderline1.getCartItem();
-                    int orderlineItem = Integer.parseInt(deleteOrderline);
+                    int orderlineItem = Integer.parseInt(delete);
                     if (cartItem == orderlineItem) {
                         orderlineList.remove(orderline1);
                         session.setAttribute("orderlineList", orderlineList);
@@ -107,8 +108,6 @@ Orderline orderline = null;
                 totalPrice += orderline1.getPrice();
                 session.setAttribute("totalprice", totalPrice);
 
-
-                System.out.println(deleteOrderline);
                 //orderline = request.getParameter("delete");
                 session.setAttribute("orderlineList", orderlineList);
 
