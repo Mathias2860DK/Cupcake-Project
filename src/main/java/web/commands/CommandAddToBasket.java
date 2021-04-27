@@ -31,27 +31,26 @@ public class CommandAddToBasket extends CommandProtectedPage {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
 
         HttpSession session = request.getSession();
-        User user = null;
-        Orderline orderline = null;
-        List<Orderline> orderlineList = null;
-        int orderId = 0;
+
+        //Convert the session attributes and parameters to datatypes we insert into the Orderline object.
         List<Bottom> bottomList = (List<Bottom>) session.getServletContext().getAttribute("bottomList");
         List<Topping> toppingList = (List<Topping>) session.getServletContext().getAttribute("toppingList");
         int bottomId = Integer.parseInt(request.getParameter("bottom"));
         int toppingId = Integer.parseInt(request.getParameter("topping"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+        //Calculates the price for the orderline.
         double price = CalcPrice.calcOrderLinePrice(bottomId, toppingId, quantity, bottomList, toppingList);
-        int user_id = 0; //hed "1" før
-        orderline = new Orderline(quantity,price,toppingId,bottomId);
-        //Se om listen a orderlines eksistere på sessionscope
-        orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
+        Orderline orderline = new Orderline(quantity,price,toppingId,bottomId);
+        //Cheks to see if the list exists in sessionscope
+        List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
+        //If it does not exist then we initialize it.
         if (orderlineList == null){
             orderlineList = new ArrayList<>();
         }
+        //Lastly we add it and update the basket.
         orderlineList.add(orderline);
-
         session.setAttribute("orderlineList",orderlineList);
-
 
             return pageToShow;
         }

@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class ShowAllUsersCommand extends CommandProtectedPage{
+public class ShowAllUsersCommand extends CommandProtectedPage {
     UserFacade userFacade;
+
     public ShowAllUsersCommand(String pageToShow, String role) {
         super(pageToShow, role);
         this.userFacade = new UserFacade(database);
@@ -21,10 +22,7 @@ public class ShowAllUsersCommand extends CommandProtectedPage{
         HttpSession session = request.getSession();
 
         List<User> userList = userFacade.getAllUsers();
-        System.out.println("kommer vi ind her ");
-        System.out.println(this.role);
-        session.setAttribute("userList",userList);
-        request.setAttribute("userList",userList);
+        session.setAttribute("userList", userList);
 
 
         return pageToShow;

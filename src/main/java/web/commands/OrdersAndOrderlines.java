@@ -20,52 +20,51 @@ public class OrdersAndOrderlines extends CommandProtectedPage {
 
     public OrdersAndOrderlines(String pageToShow, String role) {
         super(pageToShow, role);
-       ordersFacade = new OrdersFacade(database);
-       orderlineFacade = new OrderlineFacade(database);
-       userFacade = new UserFacade(database);
+        ordersFacade = new OrdersFacade(database);
+        orderlineFacade = new OrderlineFacade(database);
+        userFacade = new UserFacade(database);
 
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
         HttpSession session = request.getSession();
+        //TODO: CLEAN UP
+
         String editBalance = request.getParameter("editbalance");
         String userId = request.getParameter("userid");
         String userIdValue = request.getParameter("confirm");
 
-        if (userId != null){
+        if (userId != null) {
 
             int userIdInt = Integer.parseInt(userId);
             List<Orders> ordersList = ordersFacade.getOrdersByUserId(userIdInt);
-            session.setAttribute("orderList",ordersList);
+            session.setAttribute("orderList", ordersList);
         }
 
-        if (userIdValue != null){
-            //skal tilføjes
-            //try catch skal laves. Giver NumberFormatException
-
+        if (userIdValue != null) {
+            //try catch --> NumberFormatException
             int editBalanceInt = Integer.parseInt(editBalance);
             int userIdValueInt = Integer.parseInt(userIdValue);
-            System.out.println(editBalanceInt);
+
             session.getAttribute("userList");
             User user = userFacade.getUserById(userIdValueInt);
-            //den nuværende balance
+
+            //Updates the users balance on session scope and in database.
             double currentBalance = user.getBalance();
             double newBalance = currentBalance + editBalanceInt;
             user.setBalance(newBalance);
             userFacade.insertBalance(user);
+
+            //Updates the users balance
             List<User> userList = userFacade.getAllUsers();
-            session.setAttribute("userList",userList);
-            request.setAttribute("sucess","Succes! Monney has been inserted");
+            session.setAttribute("userList", userList);
 
-return "test";
+            //Should check if this is even true.
+            request.setAttribute("sucess", "Succes! Monney has been inserted");
+
+            return "test";
         }
-
-
-
-
-
-
 
 
         return pageToShow;
