@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ManageOrderlineCommand extends CommandProtectedPage{
+public class ManageOrderlineCommand extends CommandProtectedPage {
     private OrderlineFacade orderlineFacade;
     private OrdersFacade ordersFacade;
     private UserFacade userFacade;
@@ -34,61 +34,58 @@ public class ManageOrderlineCommand extends CommandProtectedPage{
         User user = null;
         int userId = 0;
 
-        if (session.getAttribute("user") != null){
+        if (session.getAttribute("user") != null) {
             user = (User) session.getAttribute("user");
             userId = user.getId();
         } else {
-//Hvis user ikke er forskellig fra null, skal man ikke kan ligge ting i sin kurv
+            //Client should not be able to access this site without being logged in
+            request.setAttribute("error", "You should be logged in before putting items in basket");
         }
 
-
-Orderline orderline = null;
-//TODO: Delete skal laves og totalprice skal opdateres.
+        //Gets the parameter data
         String delete = request.getParameter("delete");
         String pay = request.getParameter("pay");
         String edit = request.getParameter("edit");
-
-
-        //TODO: Der skal checkes om balanace er høj nok
+        //Checks if pay parameter is initialized
         if (pay != null) {
-            //tjekker om balance er høj nok
             user = userFacade.getUserById(userId);
             double totalPrice = (double) session.getAttribute("totalprice");
-            if (totalPrice != 0){
-            double userBalance = user.getBalance();
-            if (userBalance > totalPrice) {
-                List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
-                int orderId = ordersFacade.insertOrder(userId, new Timestamp(System.currentTimeMillis()), "paid");
-                for (Orderline orderline1 : orderlineList) {
-                    int quantity = orderline1.getQuantity();
-                    double price = orderline1.getPrice();
-                    int toppingId = orderline1.getToppingId();
-                    int bottomId = orderline1.getBottomId();
-                    orderlineFacade.insertOrderline(orderId, quantity, price, toppingId + 1, bottomId + 1);//lappe løsning
-                }
-                //tømmer kurven efter kunden har betalt
-                orderlineList.clear();
-                session.setAttribute("orderlineList", orderlineList);
-                //sætter den totale pris til 0 efter kurven er tømt.
-                session.setAttribute("totalprice", 0);
-                double newBalance = user.getBalance() - totalPrice;
-                user.setBalance(newBalance);
-                userFacade.insertBalance(user);
-            }
+            if (totalPrice != 0) {
+                double userBalance = user.getBalance();
+                //Checks if the users balance is more than the total price of the orderlines.
+                if (userBalance > totalPrice) {
+                    List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
+                    int orderId = ordersFacade.insertOrder(userId, new Timestamp(System.currentTimeMillis()), "paid");
+                    for (Orderline orderline1 : orderlineList) {
+                        int quantity = orderline1.getQuantity();
+                        double price = orderline1.getPrice();
+                        int toppingId = orderline1.getToppingId();
+                        int bottomId = orderline1.getBottomId();
+                        orderlineFacade.insertOrderline(orderId, quantity, price, toppingId + 1, bottomId + 1);//lappe løsning
+                    }
+                    //Empty basket after customer pays
+                    orderlineList.clear();
+                    session.setAttribute("orderlineList", orderlineList);
+                    //Sets totalprice attribute to 0 after the customer has paid
+                    session.setAttribute("totalprice", 0);
 
+                    //Updates the users balance
+                    double newBalance = user.getBalance() - totalPrice;
+                    user.setBalance(newBalance);
+                    userFacade.insertBalance(user);
+                }
 
             } else {
-                request.setAttribute("error","You do not have enough money :(. Or basket empty?");
+                request.setAttribute("error", "You do not have enough money :(. Or basket empty?");
             }
 
             //TODO: Returnér brugeren til en kvitteringside.
 
-
-
         }
+        //Checks if delete parameter is initialized
         if (delete != null) {
             List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
-
+            //Deletes the selected orderline.
             if (orderlineList != null) {
                 for (int i = 0; i < orderlineList.size(); i++) {
                     int cartItem = orderlineList.get(i).getCartItem();
@@ -100,23 +97,14 @@ Orderline orderline = null;
                 }
             }
 
-            //Udregn samlede pris for orderline via et orderId
+            //Updates the price of the new cart
             double totalPrice = 0;
             for (Orderline orderline1 : orderlineList) {
                 totalPrice += orderline1.getPrice();
-
-
-                //orderline = request.getParameter("delete");
                 session.setAttribute("orderlineList", orderlineList);
-
-
             }
             session.setAttribute("totalprice", totalPrice);
         }
-
-        //session.setAttribute("");
-
-
 
         return pageToShow;
     }
