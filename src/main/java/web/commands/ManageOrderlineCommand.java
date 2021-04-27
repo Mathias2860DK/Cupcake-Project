@@ -54,30 +54,31 @@ Orderline orderline = null;
             //tjekker om balance er høj nok
             user = userFacade.getUserById(userId);
             double totalPrice = (double) session.getAttribute("totalprice");
+            if (totalPrice != 0){
             double userBalance = user.getBalance();
-            if (userBalance > totalPrice){
+            if (userBalance > totalPrice) {
                 List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
-                int orderId = ordersFacade.insertOrder(userId,new Timestamp(System.currentTimeMillis()),"paid");
+                int orderId = ordersFacade.insertOrder(userId, new Timestamp(System.currentTimeMillis()), "paid");
                 for (Orderline orderline1 : orderlineList) {
                     int quantity = orderline1.getQuantity();
                     double price = orderline1.getPrice();
                     int toppingId = orderline1.getToppingId();
                     int bottomId = orderline1.getBottomId();
-                    orderlineFacade.insertOrderline(orderId,quantity,price,toppingId+1,bottomId+1);//lappe løsning
-            }
+                    orderlineFacade.insertOrderline(orderId, quantity, price, toppingId + 1, bottomId + 1);//lappe løsning
+                }
                 //tømmer kurven efter kunden har betalt
                 orderlineList.clear();
-                session.setAttribute("orderlineList",orderlineList);
+                session.setAttribute("orderlineList", orderlineList);
                 //sætter den totale pris til 0 efter kurven er tømt.
-                session.setAttribute("totalprice",0);
-                double newBalance = user.getBalance()-totalPrice;
+                session.setAttribute("totalprice", 0);
+                double newBalance = user.getBalance() - totalPrice;
                 user.setBalance(newBalance);
-            userFacade.insertBalance(user);
-
+                userFacade.insertBalance(user);
+            }
 
 
             } else {
-                request.setAttribute("error","You do not have enough money :(");
+                request.setAttribute("error","You do not have enough money :(. Or basket empty?");
             }
 
             //TODO: Returnér brugeren til en kvitteringside.
@@ -89,15 +90,12 @@ Orderline orderline = null;
             List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
 
             if (orderlineList != null) {
-
-                for (Orderline orderline1 : orderlineList) { //denne linje giver en ConcurrentModificationException. Men metoden virker.. 1krs dusør til ham der løser det!
-                    int cartItem = orderline1.getCartItem();
+                for (int i = 0; i < orderlineList.size(); i++) {
+                    int cartItem = orderlineList.get(i).getCartItem();
                     int orderlineItem = Integer.parseInt(delete);
                     if (cartItem == orderlineItem) {
-                        orderlineList.remove(orderline1);
-                        session.setAttribute("orderlineList", orderlineList);
-                        System.out.println("kommer vi ind her for loop");
-
+                        orderlineList.remove(orderlineList.remove(i));
+                        i--;
                     }
                 }
             }
@@ -106,14 +104,16 @@ Orderline orderline = null;
             double totalPrice = 0;
             for (Orderline orderline1 : orderlineList) {
                 totalPrice += orderline1.getPrice();
-                session.setAttribute("totalprice", totalPrice);
+
 
                 //orderline = request.getParameter("delete");
                 session.setAttribute("orderlineList", orderlineList);
 
 
             }
+            session.setAttribute("totalprice", totalPrice);
         }
+
         //session.setAttribute("");
 
 
