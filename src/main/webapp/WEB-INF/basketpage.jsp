@@ -22,7 +22,6 @@
 <form action="${pageContext.request.contextPath}/fc/manageorderline" method="post">
 
                 <c:forEach var="orderlineItem" items="${sessionScope.orderlineList}">
-                    counter: ${orderlineItem.toString()}
 
                     Bottom: ${applicationScope.bottomList.get(orderlineItem.bottomId).bName}<br>
                     Topping: ${applicationScope.toppingList.get(orderlineItem.toppingId).tName}<br>
