@@ -1,3 +1,7 @@
+# Link to online website
+http://167.71.40.117:8080/sem2-startcode-1.0-SNAPSHOT/
+
+
 # Template for Java webprojects
 
 This startcode is for 2. semester on Computer Science in Lyngby and Bornholm. It has been
