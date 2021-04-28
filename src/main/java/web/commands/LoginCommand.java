@@ -28,7 +28,7 @@ public class LoginCommand extends CommandUnprotectedPage
         User user = userFacade.login(email, password);
 
         HttpSession session = request.getSession();
-
+        //Sets the user credentials on session scope.
         session.setAttribute("user", user);
         session.setAttribute("role", user.getRole());
         session.setAttribute("email", email);

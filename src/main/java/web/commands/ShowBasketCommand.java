@@ -15,6 +15,7 @@ public class ShowBasketCommand extends CommandProtectedPage {
 
     private OrdersFacade ordersFacade;
     private OrderlineFacade orderlineFacade;
+
     public ShowBasketCommand(String pageToShow, String role) {
         super(pageToShow, role);
         ordersFacade = new OrdersFacade(database);
@@ -24,24 +25,21 @@ public class ShowBasketCommand extends CommandProtectedPage {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
-        User user = null;
-        int userId = 0;
         HttpSession session = request.getSession();
 
+        List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
 
-List<Orderline> orderlineList = (List<Orderline>) session.getAttribute("orderlineList");
-
-if (orderlineList == null){
-    request.setAttribute("error","Your basket is empty");
-} else {
-    //Udregn samlede pris for orderline via et orderId
-    double totalPrice = 0;
-    for (Orderline orderline : orderlineList) {
-        totalPrice +=orderline.getPrice();
-        session.setAttribute("totalprice",totalPrice);
-        session.setAttribute("orderlineList",orderlineList);
-    }
-}
+        if (orderlineList == null || orderlineList.isEmpty()) {
+            request.setAttribute("error", "Your basket is empty");
+        } else {
+            //Udregn samlede pris for orderline via et orderId
+            double totalPrice = 0;
+            for (Orderline orderline : orderlineList) {
+                totalPrice += orderline.getPrice();
+                session.setAttribute("totalprice", totalPrice);
+                session.setAttribute("orderlineList", orderlineList);
+            }
+        }
 
 
         return pageToShow;
